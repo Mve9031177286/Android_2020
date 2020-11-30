@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="button">Button</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="question1">2+2=4</string>
+    <string name="question2">8-5=4</string>
+    <string name="question3">9-4=6</string>
+    <string name="question4">3+4=7</string>
+    <string name="question5">6-2=4</string>
+    <string name = "correct">ВЕРНО</string>
+    <string name = "nocorrect">НЕВЕРНО</string>
+    <string name ="yes">ДА</string>
+    <string name = "no">НЕТ</string>
+    <string name="finish">БАСТА КАРАПУЗИКИ</string>
+    <string name="question" />
+</resources>
