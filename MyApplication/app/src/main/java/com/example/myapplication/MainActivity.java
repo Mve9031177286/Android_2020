@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Button yesBtn;// создал кнопку "да"
     private Button noBtn;// создал кнопку "нет"
     private Button showAnswer;
+    private Button resultBtn;
 
     private Question[] questions = new Question[]{
             new Question(R.string.question1, true),
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         yesBtn = findViewById(R.id.yesBtn);// соединил кнопку "да" с компонентом view
         noBtn = findViewById(R.id.noBtn);//  соединил кнопку "нет" с компонентом view, стандартная конструкция, надо запомнить
-        showAnswer = findViewById(R.id.showAnswer);
+        showAnswer = findViewById(R.id.showAnswer);  //  в общем, контактим с виджетом
+        resultBtn = findViewById(R.id.resultBtn);
 
         textView.setText(questions[questionIndex].getQuestionResId());
         yesBtn.setOnClickListener(new View.OnClickListener() { // обработка нажатия пользователем кнопки "да"
@@ -81,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AnswerActivity.class);// намерение создать новую активность, новая активность запускается через андроид менеджер, в скобках текущая активность, где мы находимся (this) и  ту активность, которую хочу запустить
                 intent.putExtra("answer",questions[questionIndex].isAnswerTrue());  //  прицепляю данные к ответу ( ключ, массив с вопросами[текущий вопрос] и ответ, достаем через геттер
+                startActivity(intent); // командую: запускаем активность
+            }
+        });
+
+        resultBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
                 startActivity(intent); // командую: запускаем активность
             }
         });
