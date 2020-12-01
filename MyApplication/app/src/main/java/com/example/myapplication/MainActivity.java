@@ -16,58 +16,58 @@ import Viev.OnClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private TextView textView; // создал переменную textView
     private Button yesBtn;// создал кнопку "да"
     private Button noBtn;// создал кнопку "нет"
     private Button showAnswer;
     private Button resultBtn;
 
-    private Question[] questions = new Question[]{
-            new Question(R.string.question1, true),
-            new Question(R.string.question2, false),
-            new Question(R.string.question3, false),
-            new Question(R.string.question4, true),
-            new Question(R.string.question5, true)
+    private Question[] questions = new Question[]{ // создал массив question, название как у класса
+            new Question(R.string.question1, true), // следующие строки - наполнение массива, элементы: 0
+            new Question(R.string.question2, false), // 1   R.string.question - отсылка к string.xml, где храним строки
+            new Question(R.string.question3, false), // 2   и какую кнопку нажать для правильного ответа
+            new Question(R.string.question4, true),  // 3
+            new Question(R.string.question5, true)   // 4
     };
 
 
-    private int questionIndex = 0;
+    private int questionIndex = 0; // переменная для нумерации вопросов, изначально нулевой вопрос
     @Override
     protected void onCreate(Bundle savedInstanceState) {  // метод onCreate запускается со своим хранилищем Bundle saved...наподобие ArreyList, но в Андроид
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // активити мэйн вывелось на экран
 
         if (savedInstanceState != null){// при запуске приложения saved=null, там ничего нет
             questionIndex = savedInstanceState.getInt("questionIndex");  //если saved... не равен (!=) null, то берем значение question из него
         }
 
-        textView = findViewById(R.id.textView);
-        yesBtn = findViewById(R.id.yesBtn);// соединил кнопку "да" с компонентом view
+        textView = findViewById(R.id.textView); // нашли textView по идентификатору
+        yesBtn = findViewById(R.id.yesBtn);// соединил кнопку "да" с компонентом view (xml), в скобках R - отсылка к ресурсам, папка res, далее id (ищем id) какой именно кнопки
         noBtn = findViewById(R.id.noBtn);//  соединил кнопку "нет" с компонентом view, стандартная конструкция, надо запомнить
         showAnswer = findViewById(R.id.showAnswer);  //  в общем, контактим с виджетом
         resultBtn = findViewById(R.id.resultBtn);
 
-        textView.setText(questions[questionIndex].getQuestionResId());
+        textView.setText(questions[questionIndex].getQuestionResId()); // на текствью установлен текст с вопросом, сначала нулевой
         yesBtn.setOnClickListener(new View.OnClickListener() { // обработка нажатия пользователем кнопки "да"
             @Override
             public void onClick(View view) { //  реализуем метод onClick, который срабатывает при нажатии кнопки "да"
-                if (questions[questionIndex].isAnswerTrue())
-                    Toast.makeText(MainActivity.this,R.string.correct, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(MainActivity.this,R.string.nocorrect, Toast.LENGTH_LONG).show();
+                if (questions[questionIndex].isAnswerTrue())   // далее записано все, что будет происходить, когда пользователь нажмет на кнопку
+                    Toast.makeText(MainActivity.this,R.string.correct, Toast.LENGTH_LONG).show();  // Toast - уведомление, контекст - ссылка на текущую активность,
+                else                                                                              // необходимо показать уведомление в текущей активности,
+                    Toast.makeText(MainActivity.this,R.string.nocorrect, Toast.LENGTH_LONG).show(); // далее строка - что появится на экране, потом - длительность того, что появится на экране.
                 @ColorInt int color = Color.parseColor("#00ff00"); //  задал изменение цвета
                 yesBtn.setBackgroundColor(color);  //  привязал изменение цвета при нажатии к кнопке "да"
-                questionIndex++;
+                questionIndex++; // увеличиваем индекс, т.е. получаем номер следующего вопроса
                 if (questionIndex<5)  //  вместо этого можно сделать так (любое кол-во вопросов тогда, пойдет по кругу):
                                       //questionIndex = (questionIndex+1)%questions.length  не позволит выйти за пределы массива
-                    textView.setText(questions[questionIndex].getQuestionResId());
+                    textView.setText(questions[questionIndex].getQuestionResId()); // выводим следующий вопрос
             }
         });
         noBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (questions[questionIndex].isAnswerTrue())
-                    Toast.makeText(MainActivity.this,R.string.nocorrect, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,R.string.nocorrect, Toast.LENGTH_LONG).show();  // makeText - сделать уведомление, show - показать его
                 else
                     Toast.makeText(MainActivity.this,R.string.correct, Toast.LENGTH_LONG).show();
                 @ColorInt int color = Color.parseColor("#ff0000");

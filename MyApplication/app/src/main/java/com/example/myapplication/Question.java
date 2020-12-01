@@ -1,10 +1,10 @@
 package com.example.myapplication;
 
-public class Question {
-    private int questionResId;
-    private boolean answerTrue;
+public class Question { // класс,отвечает за выдачу вопросов,хранит вопросы и ответы - верно или неверно
+    private int questionResId; // поле хранит идентификатор строки
+    private boolean answerTrue; // булевое значение, ответ  же может быть либо да, либо нет
 
-    public Question(int questionResId, boolean answerTrue) {
+    public Question(int questionResId, boolean answerTrue) { //конструктор
         this.questionResId = questionResId;
         this.answerTrue = answerTrue;
     }
