@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import Viev.OnClickListener;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
             new Question(R.string.question5, true)   // 4
     };
 
-
+    private ArrayList<String> AnswerResult = new ArrayList<String>(); // массив для показателей верности ответов
     private int questionIndex = 0; // переменная для нумерации вопросов, изначально нулевой вопрос
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {  // метод onCreate запускается со своим хранилищем Bundle saved...наподобие ArreyList, но в Андроид
         super.onCreate(savedInstanceState);
@@ -51,14 +54,17 @@ public class MainActivity extends AppCompatActivity {
         yesBtn.setOnClickListener(new View.OnClickListener() { // обработка нажатия пользователем кнопки "да"
             @Override
             public void onClick(View view) { //  реализуем метод onClick, который срабатывает при нажатии кнопки "да"
-                if (questions[questionIndex].isAnswerTrue())   // далее записано все, что будет происходить, когда пользователь нажмет на кнопку
-                    Toast.makeText(MainActivity.this,R.string.correct, Toast.LENGTH_LONG).show();  // Toast - уведомление, контекст - ссылка на текущую активность,
-                else                                                                              // необходимо показать уведомление в текущей активности,
-                    Toast.makeText(MainActivity.this,R.string.nocorrect, Toast.LENGTH_LONG).show(); // далее строка - что появится на экране, потом - длительность того, что появится на экране.
-                @ColorInt int color = Color.parseColor("#00ff00"); //  задал изменение цвета
-                yesBtn.setBackgroundColor(color);  //  привязал изменение цвета при нажатии к кнопке "да"
-                questionIndex++; // увеличиваем индекс, т.е. получаем номер следующего вопроса
-                if (questionIndex<5)  //  вместо этого можно сделать так (любое кол-во вопросов тогда, пойдет по кругу):
+                if (questions[questionIndex].isAnswerTrue()) {  // далее записано все, что будет происходить, когда пользователь нажмет на кнопку
+                    Toast.makeText(MainActivity.this, R.string.correct, Toast.LENGTH_LONG).show();  // Toast - уведомление, контекст - ссылка на текущую активность,
+                    AnswerResult.add(getString(R.string.correct)); // добавляем ответ в массив
+                } else {                                                                             // необходимо показать уведомление в текущей активности,
+                    Toast.makeText(MainActivity.this, R.string.nocorrect, Toast.LENGTH_LONG).show(); // далее строка - что появится на экране, потом - длительность того, что появится на экране.
+                    AnswerResult.add(getString(R.string.nocorrect));
+                    @ColorInt int color = Color.parseColor("#00ff00"); //  задал изменение цвета
+                    yesBtn.setBackgroundColor(color);  //  привязал изменение цвета при нажатии к кнопке "да"
+                    questionIndex++; // увеличиваем индекс, т.е. получаем номер следующего вопроса
+                }
+                    if (questionIndex<5)  //  вместо этого можно сделать так (любое кол-во вопросов тогда, пойдет по кругу):
                                       //questionIndex = (questionIndex+1)%questions.length  не позволит выйти за пределы массива
                     textView.setText(questions[questionIndex].getQuestionResId()); // выводим следующий вопрос
             }
@@ -66,13 +72,16 @@ public class MainActivity extends AppCompatActivity {
         noBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (questions[questionIndex].isAnswerTrue())
-                    Toast.makeText(MainActivity.this,R.string.nocorrect, Toast.LENGTH_LONG).show();  // makeText - сделать уведомление, show - показать его
-                else
-                    Toast.makeText(MainActivity.this,R.string.correct, Toast.LENGTH_LONG).show();
-                @ColorInt int color = Color.parseColor("#ff0000");
-                noBtn.setBackgroundColor(color);
-                questionIndex++;
+                if (questions[questionIndex].isAnswerTrue()) {
+                    Toast.makeText(MainActivity.this, R.string.nocorrect, Toast.LENGTH_LONG).show();  // makeText - сделать уведомление, show - показать его
+                    AnswerResult.add(getString(R.string.correct));
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.correct, Toast.LENGTH_LONG).show();
+                    AnswerResult.add(getString(R.string.nocorrect));
+                    @ColorInt int color = Color.parseColor("#ff0000");
+                    noBtn.setBackgroundColor(color);
+                    questionIndex++;
+                }
                 if (questionIndex<5)
                     textView.setText(questions[questionIndex].getQuestionResId());
             }
@@ -91,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                intent.putExtra("AnswerResult", AnswerResult);
                 startActivity(intent); // командую: запускаем активность
             }
         });
